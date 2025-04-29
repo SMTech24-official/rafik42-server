@@ -12,7 +12,7 @@ router
   .route("/")
   .get(ExpenseController.getExpenses)
   .post(
-    auth(UserType.Tenant, UserType.Agency),
+    auth(UserType.Landlord, UserType.Agency),
     fileUploader.uploadSingle,
     (req: Request, res: Response, next: NextFunction) => {
       req.body = JSON.parse(req.body.data);
