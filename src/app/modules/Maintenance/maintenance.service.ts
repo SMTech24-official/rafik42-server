@@ -75,6 +75,7 @@ const getPropertyMaintenances = async (id: string, isCompletedParam: any) => {
       propertyId: id,
       isCompleted,
     },
+    include: { property: true },
     orderBy: { priority: "desc" },
   });
   return result;
