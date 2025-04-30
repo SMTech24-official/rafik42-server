@@ -1,8 +1,7 @@
-
 export const propertyFilterableFields = [
   "searchTerm",
   "location",
-  "contractExpiresAt"
+  "contractExpiresAt",
 ];
 
-export const propertySearchAbleFields = [ "name"];
+export const propertySearchAbleFields = ["propertyName", "location"];
