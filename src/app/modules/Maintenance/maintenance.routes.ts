@@ -22,6 +22,11 @@ router
     MaintenanceController.createMaintenance
   );
 
+router.get(
+  "/property-maintenances/:id",
+  MaintenanceController.getPropertyMaintenances
+);
+
 router
   .route("/:id")
   .get(MaintenanceController.getSingleMaintenances)

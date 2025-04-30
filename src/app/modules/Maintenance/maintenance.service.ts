@@ -67,6 +67,19 @@ const getSingleMaintenances = async (id: string) => {
   return result;
 };
 
+const getPropertyMaintenances = async (id: string, isCompletedParam: any) => {
+  const isCompleted = isCompletedParam === "true" ? true : false;
+
+  const result = await prisma.maintenance.findMany({
+    where: {
+      propertyId: id,
+      isCompleted,
+    },
+    orderBy: { priority: "desc" },
+  });
+  return result;
+};
+
 const markComleted = async (id: string, userId: string) => {
   const maintenance = await prisma.maintenance.findFirst({
     where: { id },
@@ -118,5 +131,6 @@ export const MaintenanceService = {
   createMaintenanceIntoDb,
   getMaintenancesFromDb,
   getSingleMaintenances,
+  getPropertyMaintenances,
   markComleted,
 };

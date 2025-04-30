@@ -31,8 +31,23 @@ const getSingleMaintenances = catchAsync(async (req, res) => {
   });
 });
 
+const getPropertyMaintenances = catchAsync(async (req, res) => {
+  const isCompletedParam = req.query.isCompleted;
+  const result = await MaintenanceService.getPropertyMaintenances(
+    req.params.id,
+    isCompletedParam
+  );
+  sendResponse(res, {
+    message: "Maintenances retrieved successfully!",
+    data: result,
+  });
+});
+
 const markComleted = catchAsync(async (req, res) => {
-  const result = await MaintenanceService.markComleted(req.params.id, req.user.id);
+  const result = await MaintenanceService.markComleted(
+    req.params.id,
+    req.user.id
+  );
   sendResponse(res, {
     message: "Maintenances updated successfully!",
     data: result,
@@ -43,5 +58,6 @@ export const MaintenanceController = {
   createMaintenance,
   getMaintenances,
   getSingleMaintenances,
-  markComleted
+  getPropertyMaintenances,
+  markComleted,
 };
