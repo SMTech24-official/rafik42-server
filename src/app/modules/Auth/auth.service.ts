@@ -126,7 +126,7 @@ const changePassword = async (
     throw new ApiError(404, "User not found");
   }
 
-  const isPasswordValid = await bcrypt.compare(oldPassword, user?.password);
+  const isPasswordValid = await bcrypt.compare(oldPassword, user?.password!);
 
   if (!isPasswordValid) {
     throw new ApiError(401, "Incorrect old password");
