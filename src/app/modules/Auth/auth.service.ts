@@ -22,9 +22,14 @@ const loginUser = async (payload: { email: string; password: string }) => {
       "User not found! with this email " + payload.email
     );
   }
+
+  if (!payload.password) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "No password found");
+  }
+
   const isCorrectPassword: boolean = await bcrypt.compare(
     payload.password,
-    userData.password
+    userData.password!
   );
 
   if (!isCorrectPassword) {
@@ -45,7 +50,6 @@ const loginUser = async (payload: { email: string; password: string }) => {
 
 // social login
 const socialLogin = async (payload: any) => {
-  console.log(payload);
   if (payload && payload.email) {
     const user = await prisma.user.findUnique({
       where: { email: payload.email },
@@ -78,7 +82,6 @@ const socialLogin = async (payload: any) => {
   }
 };
 
-// get user profile
 const getMyProfile = async (userToken: string) => {
   const decodedToken = jwtHelpers.verifyToken(
     userToken,
@@ -299,7 +302,6 @@ const verifyForgotPasswordOtp = async (payload: {
   return { message: "OTP verification successful" };
 };
 
-// reset password
 const resetPassword = async (payload: { password: string; email: string }) => {
   // Check if the user exists
   const user = await prisma.user.findUnique({

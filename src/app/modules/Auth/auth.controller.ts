@@ -18,7 +18,6 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
 
 const socialLogin = catchAsync(async (req: Request, res: Response) => {
   const result = await AuthServices.socialLogin(req.body);
-
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -28,7 +27,6 @@ const socialLogin = catchAsync(async (req: Request, res: Response) => {
 });
 
 const logoutUser = catchAsync(async (req: Request, res: Response) => {
-  // Clear the token cookie
   res.clearCookie("token", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
@@ -43,7 +41,6 @@ const logoutUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// get user profile
 const getMyProfile = catchAsync(async (req: Request, res: Response) => {
   const userToken = req.headers.authorization;
 
@@ -56,7 +53,6 @@ const getMyProfile = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// change password
 const changePassword = catchAsync(async (req: Request, res: Response) => {
   const userToken = req.headers.authorization;
   const { oldPassword, newPassword } = req.body;
@@ -74,7 +70,6 @@ const changePassword = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// forgot password
 const forgotPassword = catchAsync(async (req: Request, res: Response) => {
   const result = await AuthServices.forgotPassword(req.body);
 
