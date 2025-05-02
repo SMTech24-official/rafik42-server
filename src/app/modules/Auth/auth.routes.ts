@@ -15,6 +15,8 @@ router.post(
   AuthController.loginUser
 );
 
+router.post("/social/login", AuthController.socialLogin); 
+
 // user logout route
 router.post("/logout", AuthController.logoutUser);
 

@@ -16,6 +16,17 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const socialLogin = catchAsync(async (req: Request, res: Response) => {
+  const result = await AuthServices.socialLogin(req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "social login success!",
+    data: result,
+  });
+});
+
 const logoutUser = catchAsync(async (req: Request, res: Response) => {
   // Clear the token cookie
   res.clearCookie("token", {
@@ -110,6 +121,7 @@ const resetPassword = catchAsync(async (req: Request, res: Response) => {
 
 export const AuthController = {
   loginUser,
+  socialLogin,
   logoutUser,
   getMyProfile,
   changePassword,

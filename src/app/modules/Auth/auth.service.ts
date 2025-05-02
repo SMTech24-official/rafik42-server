@@ -43,6 +43,41 @@ const loginUser = async (payload: { email: string; password: string }) => {
   return { token: accessToken };
 };
 
+// social login
+const socialLogin = async (payload: any) => {
+  console.log(payload);
+  if (payload && payload.email) {
+    const user = await prisma.user.findUnique({
+      where: { email: payload.email },
+    });
+
+    if (user) {
+      const accessToken = jwtHelpers.generateToken(
+        {
+          id: user.id,
+          email: user.email,
+          userType: user.userType,
+        },
+        config.jwt.jwt_secret as Secret,
+        config.jwt.expires_in as string
+      );
+      return { token: accessToken };
+    } else {
+      const newUser = await prisma.user.create({ data: payload });
+      const accessToken = jwtHelpers.generateToken(
+        {
+          id: newUser.id,
+          email: newUser.email,
+          userType: newUser.userType,
+        },
+        config.jwt.jwt_secret as Secret,
+        config.jwt.expires_in as string
+      );
+      return { token: accessToken };
+    }
+  }
+};
+
 // get user profile
 const getMyProfile = async (userToken: string) => {
   const decodedToken = jwtHelpers.verifyToken(
@@ -293,6 +328,7 @@ const resetPassword = async (payload: { password: string; email: string }) => {
 
 export const AuthServices = {
   loginUser,
+  socialLogin,
   getMyProfile,
   changePassword,
   forgotPassword,
